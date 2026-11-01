@@ -1,8 +1,12 @@
-# node-guard
+# OpenClash FF
+
+<img src="docs/images/icon.svg" width="96" alt="OpenClash FF 图标">
+
+**FF = Fast Failover，OpenClash 当前节点快速故障切换插件。**
 
 用“1 元机场”省下了钱，却经常在晚高峰花时间切节点。
 
-节点卡住了，网页还在转圈，下一轮自动测速可能还要等几分钟。node-guard 就是为这段等待写的：**默认每秒检查各策略组当前选中的节点，失败后按顺序寻找下一个可用节点。**
+节点卡住了，网页还在转圈，下一轮自动测速可能还要等几分钟。OpenClash FF 就是为这段等待写的：**默认每秒检查各策略组当前选中的节点，失败后按顺序寻找下一个可用节点。**
 
 搭配 OpenClash 使用，沿用现有订阅、DNS 和分流规则。手动选节点、自动选节点都能跟随；多个组用同一节点，只检查一次。
 
@@ -20,6 +24,20 @@
 LuCI 页面需要现有 OpenClash 环境提供 luci-compat、luci.jsonc、nixio 和 curl。使用 nftables 或 iptables 不影响本服务：它只访问 Mihomo 控制接口。
 
 ## 部署
+
+在路由器 SSH 执行（默认优先中国大陆加速，失败回退其他线路）：
+
+```sh
+(curl -fL --connect-timeout 10 --max-time 60 https://gh-proxy.com/https://raw.githubusercontent.com/andyfanybo/openclash-ff/main/install.sh -o /tmp/install-openclash-ff.sh || curl -fL --connect-timeout 10 --max-time 60 https://raw.githubusercontent.com/andyfanybo/openclash-ff/main/install.sh -o /tmp/install-openclash-ff.sh) && sh /tmp/install-openclash-ff.sh
+```
+
+脚本自动识别架构、下载最新 Release、核对 SHA-256 并安装 LuCI 页面。首次安装尝试读取 OpenClash 的控制端口与认证设置并启用服务；升级保留配置及原运行状态。
+
+仅使用 GitHub 直连：`FF_MIRROR=direct sh /tmp/install-openclash-ff.sh`。自定义加速前缀：`FF_MIRROR=https://你的加速域名 sh /tmp/install-openclash-ff.sh`。加速由第三方提供，可用性会变化；校验用于检查下载完整性。
+
+安装后打开 **服务 → OpenClash → 节点自动切换**。依赖现有 OpenClash、curl、tar、sha256sum 和 od；自动读取认证配置还需 Ruby。
+
+### 手动编译安装
 
 先在电脑上下载项目源码，安装 Go 1.23 或以上版本。在 Linux、macOS 或 Windows 的 WSL/Git Bash 中执行：
 
@@ -105,3 +123,7 @@ CGO_ENABLED=0 go vet ./...
 ```
 
 实现细节见 [DESIGN.md](DESIGN.md)。项目通过 Mihomo API 工作，没有内置代理内核。感谢 [Mihomo](https://github.com/MetaCubeX/mihomo) 和 [OpenClash](https://github.com/vernesong/OpenClash)。
+
+## 项目
+
+仓库：[andyfanybo/openclash-ff](https://github.com/andyfanybo/openclash-ff)。内部服务名仍为 `node-guard`，方便已有安装升级。

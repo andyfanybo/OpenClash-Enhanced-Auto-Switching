@@ -132,7 +132,7 @@ return view.extend({
 		this.eventTable = E('div', { 'class': 'ng-table-wrap' });
 		this.root = E('div', { id: 'ng-page' }, [
 			E('style', {}, ['#ng-page .ng-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:12px;margin:18px 0}#ng-page .ng-stat{border:1px solid var(--border-color-medium,#ddd);border-radius:6px;padding:14px}#ng-page .ng-stat strong{display:block;font-size:1.4em;margin:6px 0}#ng-page .ng-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;padding:10px 0}#ng-page .ng-group-choice{display:flex;align-items:center;gap:8px;padding:6px}#ng-page .ng-group-choice small{opacity:.65;margin-left:auto}#ng-page .ng-table-wrap{overflow:auto}#ng-page td{overflow-wrap:anywhere;min-width:90px}#ng-page .ng-actions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}#ng-page .ng-health{display:inline-block;border-radius:4px;padding:3px 7px;white-space:nowrap}#ng-page .ng-healthy{background:#e1f3e5;color:#206734}#ng-page .ng-unavailable,#ng-page .ng-control_error{background:#fbe8e5;color:#9b3025}#ng-page .ng-skipped{background:#eee;color:#555}']),
-			txt('h2', '节点自动切换'),
+			E('h2', {}, [E('img', { src: L.resource('view/node_guard/icon.svg'), alt: 'OpenClash FF', width: '32', height: '32', style: 'vertical-align:middle;margin-right:10px' }), '节点自动切换']),
 			txt('p', '跟随每个策略组当前选中的节点，定时检查连通性；失败后按组内顺序查找下一个可用节点。'),
 			this.summary, this.error,
 			E('div', { 'class': 'cbi-section' }, [
