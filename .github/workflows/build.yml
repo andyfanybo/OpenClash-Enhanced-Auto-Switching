@@ -1,0 +1,22 @@
+name: Build
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+      - run: CGO_ENABLED=0 go test ./...
+      - run: CGO_ENABLED=0 go vet ./...
+      - run: sh scripts/build.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: node-guard-linux
+          path: dist/

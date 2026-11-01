@@ -1,0 +1,8 @@
+/dist/
+/node-guard
+*.test
+*.out
+*.local.json
+secret
+
+DEPLOYMENT.local.md
