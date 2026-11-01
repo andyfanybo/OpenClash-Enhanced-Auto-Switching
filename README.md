@@ -35,7 +35,7 @@ LuCI 页面需要现有 OpenClash 环境提供 luci-compat、luci.jsonc、nixio 
 
 仅使用 GitHub 直连：`FF_MIRROR=direct sh /tmp/install-openclash-ff.sh`。自定义加速前缀：`FF_MIRROR=https://你的加速域名 sh /tmp/install-openclash-ff.sh`。加速由第三方提供，可用性会变化；校验用于检查下载完整性。
 
-安装后打开 **服务 → OpenClash → 节点自动切换**。依赖现有 OpenClash、curl、tar、sha256sum 和 od；自动读取认证配置还需 Ruby。
+安装后打开 **服务 → OpenClash → 节点自动切换**。依赖现有 OpenClash、curl、tar 和 sha256sum；自动读取认证配置还需 Ruby。
 
 ### 手动编译安装
 
@@ -113,7 +113,7 @@ cat /tmp/node-guard/status.json
 rm /usr/bin/node-guard /etc/init.d/node-guard
 ```
 
-移除 LuCI 页面时，再删除安装脚本中列出的三个页面文件，并清理 LuCI 菜单缓存。配置目录可以保留。
+移除 LuCI 页面时，再删除安装脚本中列出的页面文件与图标，并清理 LuCI 菜单缓存。配置目录可以保留。
 
 ## 开发
 

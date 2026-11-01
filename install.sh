@@ -10,8 +10,8 @@ if [ -z "$arch" ]; then
         armv7*) arch=armv7;;
         armv6*) arch=armv6;;
         mips|mipsel)
-            endian="$(od -An -t u1 -j 5 -N 1 /bin/busybox | tr -d ' ')"
-            case "$endian" in 1) arch=mipsle;; 2) arch=mips;; *) echo '无法识别 MIPS 大小端'; exit 1;; esac;;
+            endian="$(dd if=/bin/busybox bs=1 skip=5 count=1 2>/dev/null)"
+            case "$endian" in "$(printf '\001')") arch=mipsle;; "$(printf '\002')") arch=mips;; *) echo '无法识别 MIPS 大小端'; exit 1;; esac;;
         *) echo '不支持的 CPU，请参考 README 手动安装'; exit 1;;
     esac
 fi
@@ -19,7 +19,7 @@ case "$arch" in arm64|amd64|386|armv6|armv7|mips|mipsle) ;; *) echo 'FF_ARCH 无
 if [ "${1:-}" = --arch ]; then echo "$arch"; exit 0; fi
 [ "$(id -u)" = 0 ] || { echo '请使用 root 安装'; exit 1; }
 [ -f /etc/config/openclash ] || { echo '请先安装 OpenClash'; exit 1; }
-for tool in curl tar sha256sum od; do
+for tool in curl tar sha256sum; do
     command -v "$tool" >/dev/null 2>&1 || { echo "缺少依赖：$tool"; exit 1; }
 done
 work="$(mktemp -d /tmp/openclash-ff.XXXXXX)"
