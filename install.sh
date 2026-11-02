@@ -1,6 +1,6 @@
 #!/bin/sh
 set -eu
-REPO=andyfanybo/openclash-ff
+REPO=andyfanybo/OpenClash-Enhanced-Auto-Switching
 arch="${FF_ARCH:-}"
 if [ -z "$arch" ]; then
     case "$(uname -m)" in
